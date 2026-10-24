@@ -1,0 +1,214 @@
+/* Vintora theme tokens (same values as the other pages).
+   Sab pages ho jayein to inhe ek global :root block me merge kar dena. */
+.enq-page {
+    --vt-ink: #04201f;
+    --vt-teal: #0f3a3a;
+    --vt-teal-soft: #1e5a57;
+    --vt-gold: #c9a24b;
+    --vt-copper: #9a5b16;
+    --vt-cream: #f3efe4;
+    --vt-paper: #fbf9f3;
+    --vt-line: #e2dac5;
+    --vt-muted: #4f6a66;
+
+    min-height: 100vh;
+    background: var(--vt-cream);
+    color: var(--vt-ink);
+    font-family: Calibri, 'Segoe UI', system-ui, sans-serif;
+    padding: 2.5rem 2rem 4rem;
+}
+
+.enq-inner {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ---------- header ---------- */
+.enq-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.enq-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 2.25rem;
+    line-height: 1.15;
+    font-weight: 700;
+}
+
+.enq-sub {
+    margin: 0.4rem 0 0;
+    font-size: 1rem;
+    color: var(--vt-muted);
+}
+
+.enq-count {
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    background: var(--vt-teal);
+    color: var(--vt-cream);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ---------- list ---------- */
+.enq-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+}
+
+.enq-item {
+    padding: 1.25rem 1.5rem;
+    background: var(--vt-paper);
+    border: 1px solid var(--vt-line);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(4, 32, 31, 0.08);
+}
+
+.enq-item-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.enq-item-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.enq-link {
+    color: var(--vt-ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--vt-gold);
+}
+
+.enq-link:hover {
+    color: var(--vt-copper);
+}
+
+.enq-link:focus-visible,
+.enq-empty-link:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 2px;
+}
+
+.enq-date {
+    margin: 0.3rem 0 0;
+    font-size: 0.9rem;
+    color: var(--vt-muted);
+}
+
+/* ---------- status ---------- */
+.enq-status {
+    flex: none;
+    padding: 0.15rem 0.75rem;
+    border: 1px solid transparent;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.enq-status--new {
+    background: rgba(201, 162, 75, 0.22);
+    border-color: rgba(201, 162, 75, 0.6);
+    color: #6b3f0e;
+}
+
+.enq-status--replied {
+    background: rgba(30, 90, 87, 0.14);
+    border-color: rgba(30, 90, 87, 0.45);
+    color: var(--vt-teal);
+}
+
+.enq-status--closed {
+    background: #e9e4d3;
+    border-color: var(--vt-line);
+    color: var(--vt-muted);
+}
+
+/* ---------- conversation ---------- */
+.enq-bubble {
+    margin: 0.9rem 0 0;
+    padding: 0.7rem 0.95rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.enq-bubble--you {
+    background: #fff;
+    border: 1px solid var(--vt-line);
+}
+
+.enq-bubble--seller {
+    background: var(--vt-teal);
+    color: var(--vt-cream);
+}
+
+.enq-waiting {
+    margin: 0.9rem 0 0;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--vt-muted);
+}
+
+/* ---------- empty state ---------- */
+.enq-empty {
+    padding: 3rem 1.5rem;
+    border: 1.5px dashed var(--vt-gold);
+    border-radius: 12px;
+    background: var(--vt-paper);
+    text-align: center;
+}
+
+.enq-empty-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.enq-empty-link {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.55rem 1.2rem;
+    background: var(--vt-teal);
+    border-radius: 8px;
+    color: var(--vt-cream);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.enq-empty-link:hover {
+    background: var(--vt-teal-soft);
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 640px) {
+    .enq-page {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .enq-title {
+        font-size: 1.75rem;
+    }
+
+    .enq-item {
+        padding: 1rem;
+    }
+}

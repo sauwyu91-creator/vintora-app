@@ -1,0 +1,407 @@
+/* Vintora theme tokens (same values as the other pages, plus --vt-danger).
+   Sab pages ho jayein to inhe ek global :root block me merge kar dena. */
+.item-page {
+    --vt-ink: #04201f;
+    --vt-teal: #0f3a3a;
+    --vt-teal-soft: #1e5a57;
+    --vt-gold: #c9a24b;
+    --vt-copper: #9a5b16;
+    --vt-cream: #f3efe4;
+    --vt-paper: #fbf9f3;
+    --vt-line: #e2dac5;
+    --vt-muted: #4f6a66;
+    --vt-danger: #9b2c1f;
+
+    min-height: 100vh;
+    background: var(--vt-cream);
+    color: var(--vt-ink);
+    font-family: Calibri, 'Segoe UI', system-ui, sans-serif;
+    padding: 2rem 2rem 4rem;
+}
+
+.item-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.item-back {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--vt-copper);
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.item-back:hover {
+    text-decoration: underline;
+}
+
+.item-back:focus-visible,
+.item-login a:focus-visible,
+.item-missing-link:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 2px;
+}
+
+/* ---------- header ---------- */
+.item-head {
+    margin-bottom: 1.5rem;
+}
+
+.item-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 2.5rem;
+    line-height: 1.12;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+.item-byline {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0.5rem 0 0;
+    font-size: 1.05rem;
+    color: var(--vt-muted);
+}
+
+.item-status {
+    padding: 0.1rem 0.7rem;
+    background: rgba(201, 162, 75, 0.22);
+    border: 1px solid rgba(201, 162, 75, 0.6);
+    border-radius: 999px;
+    color: #6b3f0e;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+/* ---------- layout ---------- */
+.item-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: 2.5rem;
+    align-items: start;
+}
+
+/* ---------- gallery ---------- */
+.item-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 380px;
+    overflow: hidden;
+    background: var(--vt-teal);
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(4, 32, 31, 0.2);
+}
+
+.item-stage-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.item-noimg {
+    color: #e8d9b5;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+.item-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+}
+
+.item-thumb {
+    width: 68px;
+    height: 58px;
+    padding: 0;
+    overflow: hidden;
+    background: var(--vt-teal);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.item-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item-thumb:hover {
+    border-color: var(--vt-gold);
+}
+
+.item-thumb.is-active {
+    border-color: var(--vt-copper);
+}
+
+.item-thumb:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 2px;
+}
+
+/* ---------- specs ---------- */
+.item-specs {
+    margin: 0;
+    background: var(--vt-paper);
+    border: 1px solid var(--vt-line);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(4, 32, 31, 0.08);
+}
+
+.item-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 0.85rem 1.1rem;
+    border-bottom: 1px solid var(--vt-line);
+}
+
+.item-row:last-child {
+    border-bottom: none;
+}
+
+.item-dt {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--vt-muted);
+}
+
+.item-dd {
+    margin: 0.15rem 0 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
+
+.item-desc {
+    margin: 1.25rem 0 0;
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* ---------- provenance: the heart of Vintora ---------- */
+.item-prov {
+    margin-top: 1.25rem;
+    padding: 1.1rem 1.25rem;
+    background: #f1e6c8;
+    border: 1px solid rgba(201, 162, 75, 0.55);
+    border-radius: 12px;
+}
+
+.item-prov-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+}
+
+.item-prov-text {
+    margin: 0.4rem 0 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 1.6;
+    color: #3d2a0c;
+}
+
+/* ---------- buyer actions ---------- */
+.item-actions {
+    margin-top: 1.5rem;
+    padding: 1.25rem;
+    background: var(--vt-paper);
+    border: 1px solid var(--vt-line);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(4, 32, 31, 0.08);
+}
+
+.item-wish {
+    width: 100%;
+    padding: 0.75rem;
+    background: transparent;
+    border: 1.5px solid var(--vt-teal);
+    border-radius: 10px;
+    color: var(--vt-teal);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.item-wish:hover {
+    background: var(--vt-teal);
+    color: var(--vt-cream);
+}
+
+.item-wish.is-saved {
+    background: var(--vt-gold);
+    border-color: var(--vt-gold);
+    color: var(--vt-ink);
+}
+
+.item-wish.is-saved:hover {
+    background: #b58f3d;
+    border-color: #b58f3d;
+}
+
+.item-enq-title {
+    margin: 1.4rem 0 0.6rem;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.item-textarea {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.7rem 0.8rem;
+    background: #fff;
+    border: 1px solid #cfc6ad;
+    border-radius: 8px;
+    color: var(--vt-ink);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1.45;
+    resize: vertical;
+}
+
+.item-textarea::placeholder {
+    color: #6d7f7c;
+}
+
+.item-textarea:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 1px;
+    border-color: var(--vt-copper);
+}
+
+.item-send {
+    width: 100%;
+    margin-top: 0.7rem;
+    padding: 0.8rem;
+    background: var(--vt-teal);
+    border: 1px solid var(--vt-teal);
+    border-radius: 10px;
+    color: var(--vt-cream);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.item-send:hover {
+    background: var(--vt-teal-soft);
+    border-color: var(--vt-teal-soft);
+}
+
+.item-report {
+    margin-top: 0.8rem;
+    padding: 0.2rem 0;
+    background: none;
+    border: none;
+    color: var(--vt-muted);
+    font: inherit;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.item-report:hover {
+    color: var(--vt-danger);
+}
+
+.item-wish:focus-visible,
+.item-send:focus-visible,
+.item-report:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 2px;
+}
+
+.item-login {
+    margin: 1.25rem 0 0;
+    color: var(--vt-muted);
+}
+
+.item-login a {
+    color: var(--vt-copper);
+    font-weight: 700;
+}
+
+/* ---------- messages ---------- */
+.item-msg {
+    margin: 1rem 0 0;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.item-msg--error {
+    background: #f7e4e0;
+    border: 1px solid #d9a79f;
+    color: var(--vt-danger);
+}
+
+.item-msg--info {
+    background: rgba(30, 90, 87, 0.12);
+    border: 1px solid rgba(30, 90, 87, 0.4);
+    color: var(--vt-teal);
+}
+
+/* ---------- not available ---------- */
+.item-missing {
+    padding: 3rem 1.5rem;
+    border: 1.5px dashed var(--vt-gold);
+    border-radius: 12px;
+    background: var(--vt-paper);
+    text-align: center;
+}
+
+.item-missing-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.item-missing-link {
+    display: inline-block;
+    margin-top: 0.75rem;
+    color: var(--vt-copper);
+    font-weight: 700;
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 800px) {
+    .item-page {
+        padding: 1.25rem 1rem 3rem;
+    }
+
+    .item-title {
+        font-size: 1.9rem;
+    }
+
+    .item-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .item-stage {
+        height: 300px;
+    }
+}
+
+@media (max-width: 420px) {
+    .item-row {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+}

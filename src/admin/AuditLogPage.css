@@ -1,0 +1,445 @@
+.audit-page {
+    --a-bg: #f7f4f8;
+    --a-surface: #ffffff;
+    --a-text: #30263a;
+    --a-muted: #766b80;
+    --a-line: #e6ddeb;
+    --a-accent: #8b5e9e;
+
+    --a-green-bg: #e3f4e8;
+    --a-green: #287344;
+    --a-red-bg: #fbe4e2;
+    --a-red: #a12a22;
+    --a-orange-bg: #fdeacf;
+    --a-orange: #8a4b05;
+    --a-grey-bg: #ece8f0;
+    --a-grey: #51465f;
+
+    min-height: 100%;
+    padding: 24px;
+    background: var(--a-bg);
+    color: var(--a-text);
+    font-family: inherit;
+    box-sizing: border-box;
+}
+
+.audit-page *,
+.audit-page *::before,
+.audit-page *::after {
+    box-sizing: border-box;
+}
+
+.audit-inner {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.audit-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.audit-title {
+    margin: 0;
+    color: var(--a-text);
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.audit-sub {
+    margin: 8px 0 0;
+    color: var(--a-muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.audit-head-right {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.audit-count {
+    color: var(--a-muted);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.audit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 38px;
+    padding: 9px 15px;
+    border: 1px solid var(--a-accent);
+    border-radius: 8px;
+    background: var(--a-accent);
+    color: #ffffff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.audit-btn:hover:not(:disabled) {
+    background: #744886;
+    border-color: #744886;
+}
+
+.audit-page.dark .audit-btn:hover:not(:disabled) {
+    background: #a67cba;
+    border-color: #a67cba;
+    color: #17131b;
+}
+
+.audit-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.audit-btn:focus-visible,
+.audit-sort:focus-visible,
+.audit-more:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 3px;
+}
+
+.audit-btn-ghost {
+    background: transparent;
+    color: var(--a-accent);
+}
+
+.audit-btn-ghost:hover:not(:disabled) {
+    background: var(--a-grey-bg);
+    color: var(--a-text);
+    border-color: var(--a-line);
+}
+
+.audit-filters {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 18px;
+    margin-bottom: 20px;
+    border: 1px solid var(--a-line);
+    border-radius: 12px;
+    background: var(--a-surface);
+}
+
+.audit-field {
+    display: flex;
+    flex: 1 1 150px;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.audit-field-wide {
+    flex: 2 1 240px;
+}
+
+.audit-field > span {
+    color: var(--a-muted);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.audit-field input,
+.audit-field select {
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    padding: 8px 11px;
+    border: 1px solid var(--a-line);
+    border-radius: 7px;
+    outline: none;
+    background: var(--a-bg);
+    color: var(--a-text);
+    font: inherit;
+    font-size: 13px;
+}
+
+.audit-field input::placeholder {
+    color: var(--a-muted);
+    opacity: 0.8;
+}
+
+.audit-field input:focus,
+.audit-field select:focus {
+    border-color: var(--a-accent);
+    box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--a-accent) 16%, transparent);
+}
+
+.audit-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--a-line);
+    border-radius: 12px;
+    background: var(--a-surface);
+}
+
+.audit-table-wrap:focus-visible {
+    outline: 2px solid var(--a-accent);
+    outline-offset: 3px;
+}
+
+.audit-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.audit-table thead {
+    background: var(--a-grey-bg);
+}
+
+.audit-table th {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--a-line);
+    color: var(--a-muted);
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.audit-table td {
+    padding: 15px 16px;
+    border-bottom: 1px solid var(--a-line);
+    color: var(--a-text);
+    font-size: 13px;
+    line-height: 1.6;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+}
+
+.audit-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.audit-table tbody tr:hover {
+    background: color-mix(in srgb, var(--a-accent) 5%, var(--a-surface));
+}
+
+.audit-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-weight: inherit;
+    cursor: pointer;
+}
+
+.audit-time {
+    min-width: 155px;
+    white-space: nowrap;
+}
+
+.audit-admin {
+    font-weight: 600;
+}
+
+.audit-action {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 9px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.audit-action-approve {
+    background: var(--a-green-bg);
+    color: var(--a-green);
+}
+
+.audit-action-reject {
+    background: var(--a-red-bg);
+    color: var(--a-red);
+}
+
+.audit-action-suspend {
+    background: var(--a-orange-bg);
+    color: var(--a-orange);
+}
+
+.audit-action-other {
+    background: var(--a-grey-bg);
+    color: var(--a-grey);
+}
+
+.audit-reason {
+    min-width: 180px;
+    max-width: 360px;
+}
+
+.audit-reason-text {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.audit-reason-text.open {
+    display: block;
+    overflow: visible;
+    -webkit-line-clamp: unset;
+}
+
+.audit-more {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--a-accent);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.audit-more:hover {
+    text-decoration: underline;
+}
+
+.audit-pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.audit-pager-info {
+    color: var(--a-muted);
+    font-size: 13px;
+}
+
+.audit-pager-btns {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.audit-pager-page {
+    color: var(--a-text);
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.audit-empty {
+    padding: 42px 24px;
+    border: 1px solid var(--a-line);
+    border-radius: 12px;
+    background: var(--a-surface);
+    text-align: center;
+}
+
+.audit-empty-title {
+    margin: 0;
+    color: var(--a-text);
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.audit-empty-hint {
+    margin: 9px 0 0;
+    color: var(--a-muted);
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* Dark mode */
+.audit-page.dark {
+    --a-bg: #17131b;
+    --a-surface: #211b27;
+    --a-text: #f0eaf4;
+    --a-muted: #b4a7bc;
+    --a-line: #3a3042;
+    --a-accent: #c6a2d8;
+
+    --a-green-bg: #20392b;
+    --a-green: #98d7aa;
+    --a-red-bg: #45201d;
+    --a-red: #f1a49e;
+    --a-orange-bg: #43300f;
+    --a-orange: #f0c27a;
+    --a-grey-bg: #2e2736;
+    --a-grey: #d0c5dc;
+
+    color-scheme: dark;
+    background: var(--a-bg);
+    color: var(--a-text);
+}
+
+@media (max-width: 768px) {
+    .audit-page {
+        padding: 16px;
+    }
+
+    .audit-head {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .audit-head-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .audit-title {
+        font-size: 24px;
+    }
+
+    .audit-filters {
+        gap: 12px;
+        padding: 14px;
+    }
+
+    .audit-field,
+    .audit-field-wide {
+        flex: 1 1 100%;
+    }
+
+    .audit-pager {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .audit-pager-btns {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .audit-empty {
+        padding: 30px 16px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .audit-btn {
+        transition: none;
+    }
+}

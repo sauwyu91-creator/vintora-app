@@ -1,0 +1,251 @@
+/* Vintora theme tokens (same values as the other admin pages).
+   Sab pages ho jayein to inhe ek global :root block me merge kar dena. */
+.reports-page {
+    --vt-ink: #04201f;
+    --vt-teal: #0f3a3a;
+    --vt-teal-soft: #1e5a57;
+    --vt-gold: #c9a24b;
+    --vt-copper: #9a5b16;
+    --vt-cream: #f3efe4;
+    --vt-paper: #fbf9f3;
+    --vt-band: #f6f2e7;
+    --vt-line: #e2dac5;
+    --vt-muted: #4f6a66;
+    --vt-danger: #9b2c1f;
+
+    min-height: 100vh;
+    background: var(--vt-cream);
+    color: var(--vt-ink);
+    font-family: Calibri, 'Segoe UI', system-ui, sans-serif;
+    padding: 2.5rem 2rem 4rem;
+}
+
+.reports-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ---------- header ---------- */
+.reports-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.reports-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 2.25rem;
+    line-height: 1.15;
+    font-weight: 700;
+}
+
+.reports-sub {
+    margin: 0.4rem 0 0;
+    font-size: 1rem;
+    color: var(--vt-muted);
+}
+
+.reports-count {
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    background: var(--vt-teal);
+    color: var(--vt-cream);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ---------- error ---------- */
+.reports-error {
+    margin: 0 0 1.25rem;
+    padding: 0.75rem 1rem;
+    background: #f7e4e0;
+    border: 1px solid #d9a79f;
+    border-radius: 8px;
+    color: var(--vt-danger);
+    font-weight: 600;
+}
+
+/* ---------- list ---------- */
+.reports-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+}
+
+.reports-item {
+    padding: 1.25rem 1.5rem;
+    background: var(--vt-paper);
+    border: 1px solid var(--vt-line);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(4, 32, 31, 0.08);
+}
+
+/* closed reports sit back visually */
+.reports-item--done {
+    background: var(--vt-band);
+    box-shadow: none;
+}
+
+.reports-item-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.reports-item-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.reports-status {
+    flex: none;
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+    background: #e9e4d3;
+    border: 1px solid var(--vt-line);
+    color: var(--vt-muted);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.reports-status--open {
+    background: rgba(201, 162, 75, 0.22);
+    border-color: rgba(201, 162, 75, 0.6);
+    color: #6b3f0e;
+}
+
+.reports-meta {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    color: var(--vt-muted);
+}
+
+.reports-why {
+    margin: 0.85rem 0 0;
+    padding: 0.7rem 0.9rem;
+    background: #fff;
+    border: 1px solid var(--vt-line);
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* ---------- admin response ---------- */
+.reports-input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 1rem 0 0.75rem;
+    padding: 0.6rem 0.75rem;
+    background: #fff;
+    border: 1px solid #cfc6ad;
+    border-radius: 8px;
+    color: var(--vt-ink);
+    font: inherit;
+    font-size: 0.95rem;
+}
+
+.reports-input::placeholder {
+    color: #6d7f7c;
+}
+
+.reports-input:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 1px;
+    border-color: var(--vt-copper);
+}
+
+.reports-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.reports-btn {
+    padding: 0.55rem 1.1rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.reports-btn:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 2px;
+}
+
+/* hide = more consequential, so it is the filled button */
+.reports-btn--hide {
+    background: var(--vt-danger);
+    color: #fff;
+    border-color: var(--vt-danger);
+}
+
+.reports-btn--hide:hover {
+    background: #7c2218;
+    border-color: #7c2218;
+}
+
+.reports-btn--close {
+    background: transparent;
+    color: var(--vt-teal);
+    border-color: var(--vt-teal);
+}
+
+.reports-btn--close:hover {
+    background: var(--vt-teal);
+    color: var(--vt-cream);
+}
+
+/* ---------- empty state ---------- */
+.reports-empty {
+    padding: 3rem 1.5rem;
+    border: 1.5px dashed var(--vt-gold);
+    border-radius: 12px;
+    background: var(--vt-paper);
+    text-align: center;
+}
+
+.reports-empty-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.reports-empty-hint {
+    margin: 0.5rem 0 0;
+    color: var(--vt-muted);
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 640px) {
+    .reports-page {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .reports-title {
+        font-size: 1.75rem;
+    }
+
+    .reports-item {
+        padding: 1rem;
+    }
+
+    .reports-btn {
+        flex: 1;
+    }
+}

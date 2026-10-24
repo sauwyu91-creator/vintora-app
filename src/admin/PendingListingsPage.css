@@ -1,0 +1,238 @@
+/* Vintora theme tokens (same values as the other admin pages, plus --vt-danger).
+   Sab pages ho jayein to inhe ek global :root block me merge kar dena. */
+.pending-page {
+    --vt-ink: #04201f;
+    --vt-teal: #0f3a3a;
+    --vt-teal-soft: #1e5a57;
+    --vt-gold: #c9a24b;
+    --vt-copper: #9a5b16;
+    --vt-cream: #f3efe4;
+    --vt-paper: #fbf9f3;
+    --vt-line: #e2dac5;
+    --vt-muted: #4f6a66;
+    --vt-danger: #9b2c1f;
+
+    min-height: 100vh;
+    background: var(--vt-cream);
+    color: var(--vt-ink);
+    font-family: Calibri, 'Segoe UI', system-ui, sans-serif;
+    padding: 2.5rem 2rem 4rem;
+}
+
+.pending-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ---------- header ---------- */
+.pending-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.pending-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 2.25rem;
+    line-height: 1.15;
+    font-weight: 700;
+}
+
+.pending-sub {
+    margin: 0.4rem 0 0;
+    font-size: 1rem;
+    color: var(--vt-muted);
+}
+
+.pending-count {
+    padding: 0.3rem 0.85rem;
+    border-radius: 999px;
+    background: var(--vt-teal);
+    color: var(--vt-cream);
+    font-size: 0.85rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ---------- error ---------- */
+.pending-error {
+    margin: 0 0 1.25rem;
+    padding: 0.75rem 1rem;
+    background: #f7e4e0;
+    border: 1px solid #d9a79f;
+    border-radius: 8px;
+    color: var(--vt-danger);
+    font-weight: 600;
+}
+
+/* ---------- list ---------- */
+.pending-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+}
+
+.pending-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding: 1.25rem;
+    background: var(--vt-paper);
+    border: 1px solid var(--vt-line);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(4, 32, 31, 0.08);
+}
+
+.pending-photo {
+    flex: none;
+    width: 130px;
+    height: 104px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--vt-line);
+}
+
+.pending-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.pending-item-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    font-weight: 700;
+}
+
+.pending-meta {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    color: var(--vt-muted);
+}
+
+.pending-desc {
+    margin: 0.6rem 0 0.9rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.pending-reason {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.6rem 0.75rem;
+    background: #fff;
+    border: 1px solid #cfc6ad;
+    border-radius: 8px;
+    color: var(--vt-ink);
+    font: inherit;
+    font-size: 0.95rem;
+}
+
+.pending-reason::placeholder {
+    color: #6d7f7c;
+}
+
+.pending-reason:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 1px;
+    border-color: var(--vt-copper);
+}
+
+/* ---------- actions ---------- */
+.pending-actions {
+    flex: none;
+    display: flex;
+    gap: 0.5rem;
+}
+
+.pending-btn {
+    padding: 0.55rem 1.1rem;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.pending-btn:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 2px;
+}
+
+.pending-btn--approve {
+    background: var(--vt-teal);
+    color: var(--vt-cream);
+    border-color: var(--vt-teal);
+}
+
+.pending-btn--approve:hover {
+    background: var(--vt-teal-soft);
+    border-color: var(--vt-teal-soft);
+}
+
+.pending-btn--reject {
+    background: transparent;
+    color: var(--vt-danger);
+    border-color: var(--vt-danger);
+}
+
+.pending-btn--reject:hover {
+    background: var(--vt-danger);
+    color: #fff;
+}
+
+/* ---------- empty state ---------- */
+.pending-empty {
+    padding: 3rem 1.5rem;
+    border: 1.5px dashed var(--vt-gold);
+    border-radius: 12px;
+    background: var(--vt-paper);
+    text-align: center;
+}
+
+.pending-empty-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+}
+
+.pending-empty-hint {
+    margin: 0.5rem 0 0;
+    color: var(--vt-muted);
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 720px) {
+    .pending-page {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .pending-title {
+        font-size: 1.75rem;
+    }
+
+    .pending-item {
+        flex-wrap: wrap;
+    }
+
+    .pending-body {
+        flex-basis: calc(100% - 150px);
+    }
+
+    .pending-actions {
+        width: 100%;
+    }
+
+    .pending-btn {
+        flex: 1;
+    }
+}

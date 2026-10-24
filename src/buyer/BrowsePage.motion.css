@@ -1,0 +1,614 @@
+
+/* ==========================================
+   BROWSE PAGE — PREMIUM MOTION V2
+   Smooth • Elegant • Responsive
+========================================== */
+
+.browse-page {
+    --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --motion-purple: #8b5cf6;
+    --motion-cyan: #06b6d4;
+
+    position: relative;
+    isolation: isolate;
+}
+
+.browse-inner {
+    position: relative;
+    z-index: 1;
+}
+
+/* ==========================================
+   1. AMBIENT BACKGROUND GLOW
+========================================== */
+
+.browse-page::before,
+.browse-page::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(85px);
+    opacity: 0.16;
+    animation: browseAura 14s ease-in-out infinite alternate;
+}
+
+.browse-page::before {
+    top: 3%;
+    left: -100px;
+    background: var(--motion-purple);
+}
+
+.browse-page::after {
+    top: 32%;
+    right: -100px;
+    background: var(--motion-cyan);
+    animation-delay: -7s;
+}
+
+@keyframes browseAura {
+    0% {
+        transform: translate3d(0, 0, 0) scale(0.9);
+    }
+
+    50% {
+        transform: translate3d(30px, 35px, 0) scale(1.12);
+    }
+
+    100% {
+        transform: translate3d(-15px, 60px, 0) scale(0.98);
+    }
+}
+
+/* ==========================================
+   2. HERO ENTRANCE
+========================================== */
+
+.browse-hero {
+    animation: browseHeroEnter 850ms var(--motion-ease) both;
+}
+
+.hero-reveal {
+    animation: browseFadeUp 750ms var(--motion-ease) both;
+}
+
+.hero-reveal.delay-1 {
+    animation-delay: 80ms;
+}
+
+.hero-reveal.delay-2 {
+    animation-delay: 160ms;
+}
+
+.hero-reveal.delay-3 {
+    animation-delay: 260ms;
+}
+
+.hero-reveal.delay-4 {
+    animation-delay: 360ms;
+}
+
+.browse-title {
+    animation: browseTitleEnter 900ms var(--motion-ease) both;
+}
+
+.browse-title-accent {
+    display: inline-block;
+    background-size: 200% auto;
+    animation:
+            browseAccentFlow 5s linear infinite,
+            browseAccentEnter 900ms var(--motion-ease) both;
+}
+
+.browse-tagline {
+    animation: browseFadeUp 750ms var(--motion-ease) 220ms both;
+}
+
+@keyframes browseHeroEnter {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes browseTitleEnter {
+    from {
+        opacity: 0;
+        transform: translateY(22px);
+        filter: blur(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes browseAccentEnter {
+    from {
+        opacity: 0;
+        filter: blur(7px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0);
+    }
+}
+
+@keyframes browseAccentFlow {
+    to {
+        background-position: 200% center;
+    }
+}
+
+@keyframes browseFadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(18px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   3. LIVE STATUS PULSE
+========================================== */
+
+.browse-live-dot {
+    animation: browseLivePulse 2s ease-out infinite;
+}
+
+@keyframes browseLivePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgb(34 197 94 / 40%);
+    }
+
+    70% {
+        box-shadow: 0 0 0 7px rgb(34 197 94 / 0%);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgb(34 197 94 / 0%);
+    }
+}
+
+/* ==========================================
+   4. SEARCH BAR — PREMIUM FOCUS
+========================================== */
+
+.browse-searchbox {
+    position: relative;
+    transition:
+            transform 300ms var(--motion-ease),
+            box-shadow 300ms ease,
+            border-color 300ms ease;
+}
+
+.browse-searchbox:hover {
+    transform: translateY(-2px);
+}
+
+.browse-searchbox:focus-within {
+    transform: translateY(-3px);
+    border-color: rgb(139 92 246 / 65%);
+    box-shadow:
+            0 0 0 4px rgb(139 92 246 / 11%),
+            0 14px 35px rgb(99 102 241 / 13%);
+}
+
+.browse-searchicon {
+    flex-shrink: 0;
+    transition:
+            transform 350ms var(--motion-ease),
+            color 250ms ease;
+}
+
+.browse-searchbox:focus-within .browse-searchicon {
+    transform: scale(1.12) rotate(-8deg);
+    color: var(--motion-purple);
+}
+
+.browse-search {
+    transition: color 200ms ease;
+}
+
+.browse-clear-search {
+    transition:
+            transform 250ms var(--motion-ease),
+            opacity 200ms ease;
+}
+
+.browse-clear-search:hover {
+    transform: rotate(90deg) scale(1.12);
+}
+
+/* ==========================================
+   5. FILTER PANEL
+========================================== */
+
+.browse-panel {
+    animation: browsePanelEnter 800ms var(--motion-ease) 120ms both;
+    transition:
+            transform 350ms var(--motion-ease),
+            box-shadow 350ms ease,
+            border-color 350ms ease;
+}
+
+.browse-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 42px rgb(15 23 42 / 7%);
+}
+
+@keyframes browsePanelEnter {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.99);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.browse-panel-heading {
+    transition: color 250ms ease;
+}
+
+.browse-filter-icon {
+    transition: transform 350ms var(--motion-ease);
+}
+
+.browse-panel:hover .browse-filter-icon {
+    transform: rotate(12deg) scale(1.06);
+}
+
+/* ==========================================
+   6. CATEGORY PILLS — SHIMMER
+========================================== */
+
+.browse-pill {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition:
+            transform 250ms var(--motion-ease),
+            box-shadow 250ms ease,
+            border-color 250ms ease;
+}
+
+.browse-pill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(
+            110deg,
+            transparent 20%,
+            rgb(255 255 255 / 28%) 50%,
+            transparent 80%
+    );
+    transform: translateX(-130%);
+    transition: transform 600ms ease;
+}
+
+.browse-pill:hover::after {
+    transform: translateX(130%);
+}
+
+.browse-pill:hover {
+    transform: translateY(-2px);
+}
+
+.browse-pill:active {
+    transform: scale(0.97);
+}
+
+.browse-pill.is-active {
+    box-shadow: 0 5px 18px rgb(99 102 241 / 18%);
+}
+
+/* ==========================================
+   7. INPUTS & SELECTS
+========================================== */
+
+.browse-control,
+.browse-field {
+    transition:
+            border-color 250ms ease,
+            box-shadow 250ms ease,
+            transform 250ms var(--motion-ease);
+}
+
+.browse-control:focus-within {
+    color: var(--motion-purple);
+}
+
+.browse-field:focus {
+    outline: none;
+    border-color: rgb(139 92 246 / 65%);
+    box-shadow: 0 0 0 3px rgb(139 92 246 / 11%);
+}
+
+.browse-control:focus-within .browse-field {
+    transform: translateY(-1px);
+}
+
+/* ==========================================
+   8. RESET & ACTION BUTTONS
+========================================== */
+
+.browse-reset,
+.browse-empty-btn {
+    transition:
+            transform 250ms var(--motion-ease),
+            box-shadow 250ms ease,
+            opacity 250ms ease;
+}
+
+.browse-reset:not(:disabled):hover,
+.browse-empty-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgb(99 102 241 / 16%);
+}
+
+.browse-reset:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.browse-reset:active,
+.browse-empty-btn:active {
+    transform: scale(0.97);
+}
+
+/* ==========================================
+   9. RESULTS HEADING
+========================================== */
+
+.browse-resultbar {
+    animation: browseFadeUp 650ms var(--motion-ease) both;
+}
+
+.browse-result-heading h2 {
+    transition: letter-spacing 250ms ease;
+}
+
+.browse-result-heading:hover h2 {
+    letter-spacing: 0.01em;
+}
+
+.browse-count strong {
+    display: inline-block;
+    animation: browseCountPop 400ms var(--motion-ease) both;
+}
+
+@keyframes browseCountPop {
+    0% {
+        opacity: 0.4;
+        transform: translateY(5px) scale(0.86);
+    }
+
+    70% {
+        transform: translateY(-2px) scale(1.05);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ==========================================
+   10. FILTER CHIPS
+========================================== */
+
+.browse-chips {
+    animation: browseFadeUp 400ms var(--motion-ease) both;
+}
+
+.browse-chip {
+    transition:
+            transform 220ms var(--motion-ease),
+            border-color 220ms ease,
+            background-color 220ms ease;
+}
+
+.browse-chip:hover {
+    transform: translateY(-2px);
+}
+
+.browse-chip:active {
+    transform: scale(0.97);
+}
+
+/* ==========================================
+   11. PRODUCT GRID — SCROLL REVEAL
+   Uses existing .is-in class.
+   No --card-index CSS dependency.
+========================================== */
+
+.browse-cell {
+    min-width: 0;
+}
+
+.browse-cell.is-in {
+    animation: browseCardEnter 700ms var(--motion-ease) both;
+    transition:
+            transform 350ms var(--motion-ease),
+            filter 350ms ease;
+    backface-visibility: hidden;
+}
+
+/* Staggered card reveal without custom properties */
+.browse-grid > .browse-cell.is-in:nth-child(4n + 1) {
+    animation-delay: 0ms;
+}
+
+.browse-grid > .browse-cell.is-in:nth-child(4n + 2) {
+    animation-delay: 75ms;
+}
+
+.browse-grid > .browse-cell.is-in:nth-child(4n + 3) {
+    animation-delay: 150ms;
+}
+
+.browse-grid > .browse-cell.is-in:nth-child(4n + 4) {
+    animation-delay: 225ms;
+}
+
+@keyframes browseCardEnter {
+    from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.975);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Card hover lift */
+@media (hover: hover) and (pointer: fine) {
+    .browse-cell.is-in:hover {
+        transform: translateY(-6px);
+        filter: drop-shadow(0 12px 14px rgb(15 23 42 / 10%));
+    }
+}
+
+/* ==========================================
+   12. PRODUCT IMAGE MOTION
+========================================== */
+
+.browse-cell img {
+    transition:
+            transform 550ms var(--motion-ease),
+            filter 400ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .browse-cell:hover img {
+        transform: scale(1.035);
+        filter: saturate(1.06);
+    }
+}
+
+/* ==========================================
+   13. EMPTY STATE
+========================================== */
+
+.browse-empty {
+    animation: browseEmptyEnter 650ms var(--motion-ease) both;
+}
+
+.browse-empty-icon {
+    animation: browseIconFloat 3.5s ease-in-out infinite;
+}
+
+.browse-empty-title {
+    animation: browseFadeUp 550ms var(--motion-ease) 80ms both;
+}
+
+.browse-empty-description {
+    animation: browseFadeUp 550ms var(--motion-ease) 150ms both;
+}
+
+.browse-empty-btn {
+    animation: browseFadeUp 550ms var(--motion-ease) 220ms both;
+}
+
+@keyframes browseEmptyEnter {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.985);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes browseIconFloat {
+    0%,
+    100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+
+    50% {
+        transform: translateY(-6px) rotate(2deg);
+    }
+}
+
+/* ==========================================
+   14. ACCESSIBILITY & KEYBOARD FOCUS
+========================================== */
+
+.browse-page button,
+.browse-page input,
+.browse-page select {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.browse-page button:focus-visible,
+.browse-page a:focus-visible,
+.browse-page input:focus-visible,
+.browse-page select:focus-visible {
+    outline: 2px solid var(--motion-purple);
+    outline-offset: 3px;
+}
+
+/* ==========================================
+   15. MOBILE OPTIMIZATION
+========================================== */
+
+@media (max-width: 640px) {
+    .browse-page::before,
+    .browse-page::after {
+        width: 200px;
+        height: 200px;
+        filter: blur(60px);
+        opacity: 0.12;
+    }
+
+    .browse-panel:hover {
+        transform: none;
+    }
+
+    .browse-searchbox:focus-within {
+        transform: none;
+    }
+
+    .browse-cell img {
+        transition-duration: 300ms;
+    }
+}
+
+/* ==========================================
+   16. REDUCED MOTION
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    .browse-page *,
+    .browse-page *::before,
+    .browse-page *::after {
+        animation: none !important;
+        scroll-behavior: auto !important;
+        transition: none !important;
+    }
+}

@@ -1,0 +1,163 @@
+/* Vintora Admin Home — Royal Navy Blue + Gold Theme */
+
+.admin-home {
+    --vt-ink: #17233B;
+    --vt-teal: #243B64;
+    --vt-teal-soft: #385580;
+    --vt-gold: #C9A24B;
+    --vt-copper: #A66B45;
+    --vt-cream: #F4F1EA;
+    --vt-paper: #FFFFFF;
+    --vt-line: #DFE3EB;
+    --vt-muted: #68758A;
+
+    min-height: 100vh;
+    background: var(--vt-cream);
+    color: var(--vt-ink);
+    font-family: Calibri, 'Segoe UI', system-ui, sans-serif;
+    padding: 2.5rem 2rem 4rem;
+}
+
+.admin-home-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* ---------- header ---------- */
+.admin-home-head {
+    margin-bottom: 2rem;
+}
+
+.admin-home-title {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 2.25rem;
+    line-height: 1.15;
+    font-weight: 700;
+    color: var(--vt-ink);
+}
+
+.admin-home-sub {
+    margin: 0.5rem 0 0;
+    font-size: 1.05rem;
+    color: var(--vt-muted);
+}
+
+/* ---------- cards ---------- */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+}
+
+.admin-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 150px;
+    padding: 1.25rem 1.25rem 1.1rem;
+
+    background: var(--vt-paper);
+    border: 1px solid var(--vt-line);
+    border-radius: 12px;
+
+    box-shadow: 0 2px 10px rgba(23, 35, 59, 0.08);
+
+    color: var(--vt-ink);
+    text-decoration: none;
+
+    transition:
+            box-shadow 0.15s ease,
+            border-color 0.15s ease,
+            transform 0.15s ease;
+}
+
+.admin-card:hover {
+    border-color: var(--vt-gold);
+    box-shadow: 0 6px 18px rgba(23, 35, 59, 0.16);
+    transform: translateY(-2px);
+}
+
+.admin-card:focus-visible {
+    outline: 2px solid var(--vt-copper);
+    outline-offset: 3px;
+}
+
+/* ---------- card numbers ---------- */
+.admin-card-num {
+    margin: 0;
+    font-family: Cambria, Georgia, 'Times New Roman', serif;
+    font-size: 2.75rem;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--vt-ink);
+}
+
+.admin-card-label {
+    margin: 0.5rem 0 0;
+    font-size: 1.05rem;
+    color: var(--vt-muted);
+}
+
+/* ---------- alert cards ---------- */
+.admin-card--alert {
+    background: var(--vt-teal);
+    border-color: var(--vt-teal-soft);
+    color: var(--vt-cream);
+}
+
+.admin-card--alert:hover {
+    background: #1D3154;
+    border-color: var(--vt-gold);
+}
+
+.admin-card--alert .admin-card-num {
+    color: var(--vt-gold);
+}
+
+.admin-card--alert .admin-card-label {
+    color: var(--vt-cream);
+}
+
+/* ---------- notification badge ---------- */
+.admin-card-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+
+    padding: 0.15rem 0.65rem;
+    border-radius: 999px;
+
+    background: var(--vt-gold);
+    color: var(--vt-ink);
+
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+/* ---------- reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+    .admin-card {
+        transition: none;
+    }
+
+    .admin-card:hover {
+        transform: none;
+    }
+}
+
+/* ---------- small screens ---------- */
+@media (max-width: 640px) {
+    .admin-home {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .admin-home-title {
+        font-size: 1.75rem;
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+}

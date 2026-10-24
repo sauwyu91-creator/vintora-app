@@ -1,0 +1,27 @@
+cd C:\Users\sauwy\OneDrive\Documents\vintora
+
+@'
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, Arial, sans-serif; background: #f9fafb; color: #1f2933; }
+a { color: #2563eb; }
+.page { max-width: 1100px; margin: 0 auto; padding: 1.5rem; }
+.narrow { max-width: 620px; }
+
+.nav { display: flex; justify-content: space-between; align-items: center; padding: .75rem 1.5rem; background: #1f2933; flex-wrap: wrap; gap: .5rem; }
+.nav a { color: #fff; text-decoration: none; }
+.brand { font-size: 1.3rem; font-weight: bold; }
+.links { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+
+input, select, textarea { width: 100%; padding: .55rem; border: 1px solid #d1d5db; border-radius: 4px; font: inherit; }
+.form { display: grid; gap: 1rem; background: #fff; padding: 1.25rem; border-radius: 8px; border: 1px solid #e5e7eb; }
+
+.btn { display: inline-block; background: #10b981; color: #fff; border: none; border-radius: 4px; padding: .6rem 1rem; cursor: pointer; text-decoration: none; font: inherit; }
+.btn.small { padding: .3rem .7rem; font-size: .85rem; }
+.btn.gray { background: #6b7280; }
+
+.muted { color: #6b7280; }
+.error { color: #ef4444; }
+.success { color: #059669; }
+'@ | Set-Content -Path src\App.css -Encoding UTF8
+
+Get-ChildItem src\App.css
