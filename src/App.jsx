@@ -15,7 +15,7 @@ import MyEnquiries from './buyer/MyEnquiries'
 
 // Seller pages
 import AddListing from './seller/AddListing'
-import MyListings from './seller/MyListings'
+import MyListings from './seller/MyListings.jsx'
 import EnquiriesInbox from './seller/EnquiriesInbox'
 
 // Admin pages
