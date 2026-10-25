@@ -81,17 +81,17 @@ async function initializeDatabase() {
 
     try {
         await connection.query(`
-      CREATE TABLE IF NOT EXISTS users (
-        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        display_name VARCHAR(120) NOT NULL,
-        email VARCHAR(190) NOT NULL UNIQUE,
-        phone VARCHAR(15) NULL UNIQUE,
-        password_hash VARCHAR(255) NOT NULL,
-        role ENUM('buyer','seller','admin') NOT NULL DEFAULT 'buyer',
-        status ENUM('active','blocked') NOT NULL DEFAULT 'active',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
-    `);
+            CREATE TABLE IF NOT EXISTS users (
+                                                 id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                                 display_name VARCHAR(120) NOT NULL,
+                email VARCHAR(190) NOT NULL UNIQUE,
+                phone VARCHAR(15) NULL UNIQUE,
+                password_hash VARCHAR(255) NOT NULL,
+                role ENUM('buyer','seller','admin') NOT NULL DEFAULT 'buyer',
+                status ENUM('active','blocked') NOT NULL DEFAULT 'active',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                )
+        `);
 
         // Purani users table mein phone column nahi hota, to automatically add karo.
         const [phoneCol] = await connection.query(
@@ -106,59 +106,71 @@ async function initializeDatabase() {
         }
 
         await connection.query(`
-      CREATE TABLE IF NOT EXISTS listings (
-        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        seller_id BIGINT UNSIGNED NOT NULL,
-        title VARCHAR(200) NOT NULL,
-        category VARCHAR(100) NOT NULL,
-        subcategory VARCHAR(100) DEFAULT '',
-        city VARCHAR(100) DEFAULT '',
-        state VARCHAR(100) DEFAULT '',
-        condition_name VARCHAR(80) DEFAULT '',
-        approx_age VARCHAR(80) DEFAULT '',
-        brand VARCHAR(120) DEFAULT '',
-        description TEXT,
-        provenance TEXT,
-        availability VARCHAR(100) DEFAULT '',
-        contact_preference VARCHAR(100) DEFAULT '',
-        price DECIMAL(12,2) NOT NULL DEFAULT 0,
-        image_data LONGTEXT,
-        status ENUM('pending','published','rejected','removed')
-          NOT NULL DEFAULT 'pending',
-        views INT UNSIGNED NOT NULL DEFAULT 0,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-          ON UPDATE CURRENT_TIMESTAMP,
-        FOREIGN KEY (seller_id) REFERENCES users(id) ON DELETE CASCADE
-      )
-    `);
+            CREATE TABLE IF NOT EXISTS listings (
+                                                    id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                                    seller_id BIGINT UNSIGNED NOT NULL,
+                                                    title VARCHAR(200) NOT NULL,
+                category VARCHAR(100) NOT NULL,
+                subcategory VARCHAR(100) DEFAULT '',
+                city VARCHAR(100) DEFAULT '',
+                state VARCHAR(100) DEFAULT '',
+                condition_name VARCHAR(80) DEFAULT '',
+                approx_age VARCHAR(80) DEFAULT '',
+                brand VARCHAR(120) DEFAULT '',
+                description TEXT,
+                provenance TEXT,
+                availability VARCHAR(100) DEFAULT '',
+                contact_preference VARCHAR(100) DEFAULT '',
+                price DECIMAL(12,2) NOT NULL DEFAULT 0,
+                image_data LONGTEXT,
+                status ENUM('pending','published','rejected','removed')
+                NOT NULL DEFAULT 'pending',
+                views INT UNSIGNED NOT NULL DEFAULT 0,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                ON UPDATE CURRENT_TIMESTAMP,
+                FOREIGN KEY (seller_id) REFERENCES users(id) ON DELETE CASCADE
+                )
+        `);
+
+        // Reject ka reason save karne ke liye column (pehle se ho to skip).
+        const [rejectCol] = await connection.query(
+            "SHOW COLUMNS FROM listings LIKE 'reject_reason'"
+        );
+
+        if (!rejectCol.length) {
+            await connection.query(
+                "ALTER TABLE listings ADD COLUMN reject_reason TEXT NULL"
+            );
+            console.log("listings table mein reject_reason column add ho gaya.");
+        }
 
         await connection.query(`
-      CREATE TABLE IF NOT EXISTS wishlist (
-        user_id BIGINT UNSIGNED NOT NULL,
-        listing_id BIGINT UNSIGNED NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        PRIMARY KEY (user_id, listing_id),
-        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-        FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE
-      )
-    `);
+            CREATE TABLE IF NOT EXISTS wishlist (
+                                                    user_id BIGINT UNSIGNED NOT NULL,
+                                                    listing_id BIGINT UNSIGNED NOT NULL,
+                                                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                                    PRIMARY KEY (user_id, listing_id),
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE
+                )
+        `);
 
         await connection.query(`
-      CREATE TABLE IF NOT EXISTS enquiries (
-        id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        listing_id BIGINT UNSIGNED NOT NULL,
-        buyer_id BIGINT UNSIGNED NOT NULL,
-        seller_id BIGINT UNSIGNED NOT NULL,
-        message TEXT NOT NULL,
-        reply TEXT,
-        status ENUM('New','Replied','Closed') NOT NULL DEFAULT 'New',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE,
-        FOREIGN KEY (buyer_id) REFERENCES users(id) ON DELETE CASCADE,
-        FOREIGN KEY (seller_id) REFERENCES users(id) ON DELETE CASCADE
-      )
-    `);
+            CREATE TABLE IF NOT EXISTS enquiries (
+                                                     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                                                     listing_id BIGINT UNSIGNED NOT NULL,
+                                                     buyer_id BIGINT UNSIGNED NOT NULL,
+                                                     seller_id BIGINT UNSIGNED NOT NULL,
+                                                     message TEXT NOT NULL,
+                                                     reply TEXT,
+                                                     status ENUM('New','Replied','Closed') NOT NULL DEFAULT 'New',
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (listing_id) REFERENCES listings(id) ON DELETE CASCADE,
+                FOREIGN KEY (buyer_id) REFERENCES users(id) ON DELETE CASCADE,
+                FOREIGN KEY (seller_id) REFERENCES users(id) ON DELETE CASCADE
+                )
+        `);
     } finally {
         connection.release();
     }
@@ -277,7 +289,7 @@ app.post("/api/auth/signup", async (req, res) => {
 
         const [result] = await pool.query(
             `INSERT INTO users (display_name, email, phone, password_hash, role)
-       VALUES (?, ?, ?, ?, ?)`,
+             VALUES (?, ?, ?, ?, ?)`,
             [displayName, normalizedEmail, normalizedPhone, passwordHash, safeRole]
         );
 
@@ -367,12 +379,12 @@ app.get("/api/auth/me", auth, (req, res) => {
 app.get("/api/listings", async (req, res) => {
     try {
         const [rows] = await pool.query(`
-      SELECT l.*, u.display_name AS seller_name
-      FROM listings l
-      JOIN users u ON u.id = l.seller_id
-      WHERE l.status = 'published' AND u.status = 'active'
-      ORDER BY l.created_at DESC
-    `);
+            SELECT l.*, u.display_name AS seller_name
+            FROM listings l
+                     JOIN users u ON u.id = l.seller_id
+            WHERE l.status = 'published' AND u.status = 'active'
+            ORDER BY l.created_at DESC
+        `);
 
         res.json({ listings: rows });
     } catch (error) {
@@ -400,10 +412,10 @@ app.get("/api/listings/:id", async (req, res) => {
     try {
         const [rows] = await pool.query(
             `SELECT l.*, u.display_name AS seller_name
-       FROM listings l
-       JOIN users u ON u.id = l.seller_id
-       WHERE l.id = ? AND l.status = 'published'
-         AND u.status = 'active'`,
+             FROM listings l
+                      JOIN users u ON u.id = l.seller_id
+             WHERE l.id = ? AND l.status = 'published'
+               AND u.status = 'active'`,
             [req.params.id]
         );
 
@@ -445,10 +457,10 @@ app.post(
 
             const [result] = await pool.query(
                 `INSERT INTO listings
-        (seller_id, title, category, subcategory, city, state,
-         condition_name, approx_age, brand, description, provenance,
-         availability, contact_preference, price, image_data)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                 (seller_id, title, category, subcategory, city, state,
+                  condition_name, approx_age, brand, description, provenance,
+                  availability, contact_preference, price, image_data)
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [
                     req.user.id,
                     b.title,
@@ -502,11 +514,11 @@ app.put(
 
             const [result] = await pool.query(
                 `UPDATE listings SET
-       title = ?, category = ?, subcategory = ?, city = ?, state = ?,
-       condition_name = ?, approx_age = ?, brand = ?, description = ?,
-       provenance = ?, availability = ?, contact_preference = ?,
-       price = ?, image_data = ?, status = 'pending'
-       WHERE id = ? AND seller_id = ?`,
+                                     title = ?, category = ?, subcategory = ?, city = ?, state = ?,
+                                     condition_name = ?, approx_age = ?, brand = ?, description = ?,
+                                     provenance = ?, availability = ?, contact_preference = ?,
+                                     price = ?, image_data = ?, status = 'pending', reject_reason = NULL
+                 WHERE id = ? AND seller_id = ?`,
                 [
                     b.title,
                     b.category,
@@ -563,7 +575,7 @@ app.get("/api/admin/users", auth, allowRoles("admin"), async (req, res) => {
     try {
         const [users] = await pool.query(
             `SELECT id, display_name, email, phone, role, status, created_at
-       FROM users ORDER BY created_at DESC`
+             FROM users ORDER BY created_at DESC`
         );
         res.json({ users });
     } catch (error) {
@@ -604,7 +616,7 @@ app.patch(
     }
 );
 
-// Admin: pending listings
+// Admin: pending listings (seller ke naam ke saath)
 app.get(
     "/api/admin/listings/pending",
     auth,
@@ -612,7 +624,11 @@ app.get(
     async (req, res) => {
         try {
             const [listings] = await pool.query(
-                "SELECT * FROM listings WHERE status = 'pending' ORDER BY created_at"
+                `SELECT l.*, u.display_name AS seller_name
+         FROM listings l
+         JOIN users u ON u.id = l.seller_id
+         WHERE l.status = 'pending'
+         ORDER BY l.created_at`
             );
             res.json({ listings });
         } catch (error) {
@@ -621,22 +637,26 @@ app.get(
     }
 );
 
-// Admin: approve or reject listing
+// Admin: approve or reject listing (reject par reason save hota hai)
 app.patch(
     "/api/admin/listings/:id/status",
     auth,
     allowRoles("admin"),
     async (req, res) => {
         try {
-            const { status } = req.body;
+            const { status, reason } = req.body;
 
             if (!["published", "rejected", "removed", "pending"].includes(status)) {
                 return res.status(400).json({ error: "Invalid listing status." });
             }
 
             const [result] = await pool.query(
-                "UPDATE listings SET status = ? WHERE id = ?",
-                [status, req.params.id]
+                "UPDATE listings SET status = ?, reject_reason = ? WHERE id = ?",
+                [
+                    status,
+                    status === "rejected" ? String(reason || "") : null,
+                    req.params.id,
+                ]
             );
 
             if (!result.affectedRows) {
@@ -657,8 +677,8 @@ app.get("/api/wishlist", auth, async (req, res) => {
     try {
         const [listings] = await pool.query(
             `SELECT l.* FROM wishlist w
-       JOIN listings l ON l.id = w.listing_id
-       WHERE w.user_id = ? ORDER BY w.created_at DESC`,
+                                 JOIN listings l ON l.id = w.listing_id
+             WHERE w.user_id = ? ORDER BY w.created_at DESC`,
             [req.user.id]
         );
 
@@ -727,7 +747,7 @@ app.post("/api/enquiries", auth, async (req, res) => {
 
         const [result] = await pool.query(
             `INSERT INTO enquiries (listing_id, buyer_id, seller_id, message)
-       VALUES (?, ?, ?, ?)`,
+             VALUES (?, ?, ?, ?)`,
             [listing_id, req.user.id, rows[0].seller_id, String(message).trim()]
         );
 
@@ -742,8 +762,8 @@ app.get("/api/enquiries/mine", auth, async (req, res) => {
     try {
         const [enquiries] = await pool.query(
             `SELECT e.*, l.title AS listing_title
-       FROM enquiries e JOIN listings l ON l.id = e.listing_id
-       WHERE e.buyer_id = ? ORDER BY e.created_at DESC`,
+             FROM enquiries e JOIN listings l ON l.id = e.listing_id
+             WHERE e.buyer_id = ? ORDER BY e.created_at DESC`,
             [req.user.id]
         );
 
@@ -762,10 +782,10 @@ app.get(
         try {
             const [enquiries] = await pool.query(
                 `SELECT e.*, l.title AS listing_title, u.display_name AS buyer_name
-         FROM enquiries e
-         JOIN listings l ON l.id = e.listing_id
-         JOIN users u ON u.id = e.buyer_id
-         WHERE e.seller_id = ? ORDER BY e.created_at DESC`,
+                 FROM enquiries e
+                          JOIN listings l ON l.id = e.listing_id
+                          JOIN users u ON u.id = e.buyer_id
+                 WHERE e.seller_id = ? ORDER BY e.created_at DESC`,
                 [req.user.id]
             );
 
@@ -791,7 +811,7 @@ app.patch(
 
             const [result] = await pool.query(
                 `UPDATE enquiries SET reply = ?, status = 'Replied'
-         WHERE id = ? AND seller_id = ? AND status <> 'Closed'`,
+                 WHERE id = ? AND seller_id = ? AND status <> 'Closed'`,
                 [String(reply).trim(), req.params.id, req.user.id]
             );
 
@@ -811,7 +831,7 @@ app.patch("/api/enquiries/:id/close", auth, async (req, res) => {
     try {
         const [result] = await pool.query(
             `UPDATE enquiries SET status = 'Closed'
-       WHERE id = ? AND (buyer_id = ? OR seller_id = ?)`,
+             WHERE id = ? AND (buyer_id = ? OR seller_id = ?)`,
             [req.params.id, req.user.id, req.user.id]
         );
 
