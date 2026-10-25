@@ -1,14 +1,13 @@
-
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import { CATEGORIES, CONDITIONS } from '../services/listings.js'
 import {
-    saveListing,
-    getListing,
-    CATEGORIES,
-    CONDITIONS,
-} from '../services/listings.js'
-import { resizeImage } from '../services/storage.js'
+    fetchMine,
+    createListing,
+    editListing,
+} from '../services/listingsApi.js'
+import { uploadPhoto } from '../services/cloudinary.js'
 import './AddListing.css'
 
 const MAX_PHOTOS = 6
@@ -35,28 +34,59 @@ const AddListing = () => {
     const navigate = useNavigate()
     const fileRef = useRef(null)
 
-    const existing = id ? getListing(id) : null
-
-    const notMine = Boolean(
-        id && (!existing || !user || existing.sellerId !== user.id)
-    )
-
-    const [form, setForm] = useState(() => {
-        if (!existing) return { ...emptyForm }
-
-        const { photos, cover, ...rest } = existing
-
-        return {
-            ...emptyForm,
-            ...rest,
-            price: rest.price == null ? '' : String(rest.price),
-        }
-    })
-
-    const [photos, setPhotos] = useState(existing?.photos || [])
-    const [cover, setCover] = useState(existing?.cover || 0)
+    const [existing, setExisting] = useState(null)
+    const [loadingExisting, setLoadingExisting] = useState(Boolean(id))
+    const [form, setForm] = useState({ ...emptyForm })
+    const [photos, setPhotos] = useState([])
+    const [cover, setCover] = useState(0)
     const [error, setError] = useState('')
     const [busy, setBusy] = useState(false)
+
+    // Edit mode: apni listing backend se laao
+    useEffect(() => {
+        if (!id) return undefined
+
+        let active = true
+
+        fetchMine()
+            .then((list) => {
+                if (!active) return
+
+                const found =
+                    list.find((l) => String(l.id) === String(id)) || null
+
+                setExisting(found)
+
+                if (found) {
+                    const { photos: p, cover: c, ...rest } = found
+
+                    setForm({
+                        ...emptyForm,
+                        ...rest,
+                        price:
+                            rest.price === '' || rest.price == null
+                                ? ''
+                                : String(rest.price),
+                    })
+                    setPhotos(p || [])
+                    setCover(c || 0)
+                }
+            })
+            .catch(() => {})
+            .finally(() => {
+                if (active) setLoadingExisting(false)
+            })
+
+        return () => {
+            active = false
+        }
+    }, [id])
+
+    const notMine = Boolean(
+        id &&
+        !loadingExisting &&
+        (!existing || !user || existing.sellerId !== user.id)
+    )
 
     const change = (e) => {
         const { name, value } = e.target
@@ -102,14 +132,17 @@ const AddListing = () => {
 
         try {
             const urls = await Promise.all(
-                selected.map((file) => resizeImage(file))
+                selected.map((file) => uploadPhoto(file))
             )
 
             setPhotos((current) =>
                 [...current, ...urls].slice(0, MAX_PHOTOS)
             )
-        } catch {
-            setError('Photos process nahi ho sakin. Dobara try karo.')
+        } catch (err) {
+            setError(
+                err?.message ||
+                'Photos upload nahi ho sakin. Dobara try karo.'
+            )
         } finally {
             setBusy(false)
         }
@@ -127,7 +160,7 @@ const AddListing = () => {
         })
     }
 
-    const save = (status) => {
+    const save = async () => {
         setError('')
 
         if (!user) {
@@ -141,88 +174,74 @@ const AddListing = () => {
         }
 
         if (busy) {
-            setError('Photos process hone ka wait karo.')
+            setError('Photos upload hone ka wait karo.')
             return
         }
 
-        if (status === 'Pending Review') {
-            const required = [
-                'title',
-                'category',
-                'city',
-                'state',
-                'condition',
-                'description',
-            ]
+        const required = [
+            'title',
+            'category',
+            'city',
+            'state',
+            'condition',
+            'description',
+        ]
 
-            const missing = required.filter(
-                (key) => !String(form[key] || '').trim()
+        const missing = required.filter(
+            (key) => !String(form[key] || '').trim()
+        )
+
+        if (missing.length) {
+            setError(
+                `Ye fields bharna zaroori hai: ${missing.join(', ')}`
             )
+            return
+        }
 
-            if (missing.length) {
-                setError(
-                    `Ye fields bharna zaroori hai: ${missing.join(', ')}`
-                )
-                return
-            }
+        if (
+            form.price === '' ||
+            !Number.isFinite(Number(form.price)) ||
+            Number(form.price) < 0
+        ) {
+            setError('Please ek valid price enter karo.')
+            return
+        }
 
-            if (
-                form.price === '' ||
-                !Number.isFinite(Number(form.price)) ||
-                Number(form.price) < 0
-            ) {
-                setError('Please ek valid price enter karo.')
-                return
-            }
-
-            if (!photos.length) {
-                setError('Kam se kam 1 photo upload karo.')
-                return
-            }
-        } else {
-            if (!form.title.trim()) {
-                setError('Draft save karne ke liye title zaroori hai.')
-                return
-            }
-
-            if (
-                form.price !== '' &&
-                (!Number.isFinite(Number(form.price)) ||
-                    Number(form.price) < 0)
-            ) {
-                setError('Please ek valid price enter karo.')
-                return
-            }
+        if (!photos.length) {
+            setError('Kam se kam 1 photo upload karo.')
+            return
         }
 
         const listingData = {
             ...form,
-            price: form.price === '' ? '' : Number(form.price),
+            price: Number(form.price),
             photos,
-            cover: photos.length
-                ? Math.min(cover, photos.length - 1)
-                : 0,
-            status,
-            rejectReason: '',
-            sellerId: user.id,
-            sellerName: user.display_name,
+            cover: Math.min(cover, photos.length - 1),
         }
 
-        // Existing listing ka ID preserve karna edit ke liye zaroori hai.
-        if (id) {
-            listingData.id = existing.id
+        setBusy(true)
+
+        try {
+            if (id) {
+                await editListing(id, listingData)
+            } else {
+                await createListing(listingData)
+            }
+
+            navigate('/seller/listings')
+        } catch (err) {
+            setError(err?.message || 'Listing save nahi ho saki.')
+        } finally {
+            setBusy(false)
         }
+    }
 
-        const { error: saveError } = saveListing(listingData)
-
-        if (saveError) {
-            setError(
-                saveError.message || 'Listing save nahi ho saki.'
-            )
-            return
-        }
-
-        navigate('/seller/listings')
+    if (loadingExisting) {
+        return (
+            <main className="add-listing-page">
+                <p style={{ padding: 40 }}>Listing load ho rahi hai...</p>
+            </main>
+        )
     }
 
     if (notMine) {
@@ -561,7 +580,7 @@ const AddListing = () => {
                                 onClick={() => fileRef.current?.click()}
                                 disabled={busy || photos.length >= MAX_PHOTOS}
                             >
-                                {busy ? 'Processing photos...' : 'Browse photos'}
+                                {busy ? 'Uploading...' : 'Browse photos'}
                             </button>
 
                             <span className="listing-photo-count">
@@ -706,20 +725,11 @@ const AddListing = () => {
                         <div className="listing-form-actions">
                             <button
                                 type="button"
-                                className="listing-btn listing-btn--draft"
-                                onClick={() => save('Draft')}
-                                disabled={busy}
-                            >
-                                Save as draft
-                            </button>
-
-                            <button
-                                type="button"
                                 className="listing-btn listing-btn--primary"
-                                onClick={() => save('Pending Review')}
+                                onClick={save}
                                 disabled={busy}
                             >
-                                Submit for review{' '}
+                                {busy ? 'Please wait...' : 'Submit for review'}{' '}
                                 <span aria-hidden="true">→</span>
                             </button>
                         </div>

@@ -1,8 +1,7 @@
-
 import { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
-import { getListingsBySeller, deleteListing } from '../services/listings.js'
+import { fetchMine, removeListing } from '../services/listingsApi.js'
 
 const MyListings = () => {
     const { user } = useAuth()
@@ -17,25 +16,19 @@ const MyListings = () => {
     useEffect(() => {
         let active = true
 
-        const loadListings = () => {
+        const loadListings = async () => {
             setLoading(true)
             setError('')
 
             try {
                 if (!user) {
-                    setListings([])
+                    if (active) setListings([])
                     return
                 }
 
-                const result = getListingsBySeller(user.id)
+                const result = await fetchMine()
 
-                if (!active) return
-
-                if (result?.error) {
-                    throw result.error
-                }
-
-                setListings(Array.isArray(result) ? result : result?.data || [])
+                if (active) setListings(result)
             } catch (err) {
                 if (active) {
                     setError(err?.message || 'Listings load nahi ho sakin.')
@@ -75,7 +68,7 @@ const MyListings = () => {
         })
     }, [listings, search, statusFilter])
 
-    const handleDelete = (listing) => {
+    const handleDelete = async (listing) => {
         const confirmed = window.confirm(
             `"${listing.title}" listing delete karni hai? Ye action undo nahi hoga.`
         )
@@ -83,12 +76,7 @@ const MyListings = () => {
         if (!confirmed) return
 
         try {
-            const result = deleteListing(listing.id)
-
-            if (result?.error) {
-                setError(result.error.message || 'Listing delete nahi hui.')
-                return
-            }
+            await removeListing(listing.id)
 
             setListings((current) =>
                 current.filter((item) => item.id !== listing.id)
@@ -514,7 +502,6 @@ const MyListings = () => {
                         aria-label="Filter listings by status"
                     >
                         <option value="All">All statuses</option>
-                        <option value="Draft">Draft</option>
                         <option value="Pending Review">Pending Review</option>
                         <option value="Published">Published</option>
                         <option value="Rejected">Rejected</option>

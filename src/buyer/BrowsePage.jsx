@@ -1,11 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import ProductCard from '../components/ProductCard'
 
-import {
-    getPublished,
-    CATEGORIES,
-    CONDITIONS,
-} from '../services/listings.js'
+import { CATEGORIES, CONDITIONS } from '../services/listings.js'
+import { fetchPublished } from '../services/listingsApi.js'
 import './BrowsePage.css'
 import './BrowsePage.motion.css'
 
@@ -53,6 +50,27 @@ const RevealCell = ({ index, children }) => {
 
 const BrowsePage = () => {
     const [filters, setFilters] = useState(empty)
+    const [published, setPublished] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        let active = true
+
+        fetchPublished()
+            .then((rows) => {
+                if (active) setPublished(rows)
+            })
+            .catch(() => {
+                if (active) setPublished([])
+            })
+            .finally(() => {
+                if (active) setLoading(false)
+            })
+
+        return () => {
+            active = false
+        }
+    }, [])
 
     const set = (key) => (e) => {
         const value = e.target.value
@@ -62,8 +80,6 @@ const BrowsePage = () => {
             [key]: value,
         }))
     }
-
-    const published = getPublished()
 
     const listings = useMemo(() => {
         const text = filters.search.trim().toLowerCase()
@@ -345,7 +361,17 @@ const BrowsePage = () => {
                     </div>
 
                     {/* Product grid */}
-                    {listings.length > 0 ? (
+                    {loading ? (
+                        <div className="browse-empty" role="status">
+                            <h3 className="browse-empty-title">
+                                Items load ho rahe hain...
+                            </h3>
+
+                            <p className="browse-empty-description">
+                                Pehli baar 30-60 second lag sakte hain.
+                            </p>
+                        </div>
+                    ) : listings.length > 0 ? (
                         <div className="browse-grid">
                             {listings.map((listing, index) => (
                                 <RevealCell key={listing.id} index={index}>

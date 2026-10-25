@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
-import { getListing, addView, isWishlisted, toggleWishlist, addReport } from '../services/listings.js'
+import { isWishlisted, toggleWishlist, addReport } from '../services/listings.js'
+import { fetchListing } from '../services/listingsApi.js'
 import { sendEnquiry } from '../services/enquiries.js'
 import './ItemDetailsPage.css'
 
@@ -16,14 +17,42 @@ const ItemDetailsPage = () => {
     const { id } = useParams()
     const { user } = useAuth()
 
-    const listing = getListing(id)
+    const [listing, setListing] = useState(null)
+    const [loadingItem, setLoadingItem] = useState(true)
     const [photoIdx, setPhotoIdx] = useState(0)
     const [inWishlist, setInWishlist] = useState(() => (user ? isWishlisted(user.id, id) : false))
     const [message, setMessage] = useState('')
     const [info, setInfo] = useState('')
     const [error, setError] = useState('')
 
-    useEffect(() => { addView(id) }, [id])
+    useEffect(() => {
+        let active = true
+
+        fetchListing(id)
+            .then((item) => {
+                if (active) setListing(item)
+            })
+            .catch(() => {
+                if (active) setListing(null)
+            })
+            .finally(() => {
+                if (active) setLoadingItem(false)
+            })
+
+        return () => {
+            active = false
+        }
+    }, [id])
+
+    if (loadingItem) {
+        return (
+            <div className="item-page">
+                <div className="item-inner">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        )
+    }
 
     const canSee = listing && (
         listing.status === 'Published' || user?.role === 'admin' || user?.id === listing.sellerId

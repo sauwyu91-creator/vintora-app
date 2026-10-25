@@ -625,10 +625,10 @@ app.get(
         try {
             const [listings] = await pool.query(
                 `SELECT l.*, u.display_name AS seller_name
-         FROM listings l
-         JOIN users u ON u.id = l.seller_id
-         WHERE l.status = 'pending'
-         ORDER BY l.created_at`
+                 FROM listings l
+                          JOIN users u ON u.id = l.seller_id
+                 WHERE l.status = 'pending'
+                 ORDER BY l.created_at`
             );
             res.json({ listings });
         } catch (error) {
